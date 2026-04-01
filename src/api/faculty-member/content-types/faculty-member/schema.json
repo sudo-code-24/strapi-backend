@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faculty_members",
+  "info": {
+    "singularName": "faculty-member",
+    "pluralName": "faculty-members",
+    "displayName": "Faculty Member"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "importKey": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "roleTitle": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "photoUrl": {
+      "type": "string"
+    },
+    "positionIndex": {
+      "type": "integer",
+      "default": 0
+    },
+    "boardSection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::board-section.board-section",
+      "inversedBy": "facultyMembers"
+    }
+  }
+}

@@ -1,61 +1,115 @@
-# 🚀 Getting started with Strapi
+# JBCMHS Strapi CMS (v5)
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+Headless CMS for Jose B. Cardenas Memorial High School: announcements, events, school profile, faculty board, and Users & Permissions for the public Next.js site.
 
-### `develop`
+- **Stack:** [Strapi 5](https://docs.strapi.io/) (Node 20–24), SQLite by default (Postgres supported)
+- **Related app:** Next.js frontend in the **`hs`** repo, `client/` folder (e.g. `../../hs/client` from this directory if both live under `projects/`)
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+## Prerequisites
 
-```
-npm run develop
+- **Node.js** `>=20` and `<=24` (see `package.json` `engines`)
+- **npm** 6+
+
+## Project setup
+
+1. **Clone and install**
+
+   ```bash
+   cd my-strapi-backend
+   npm install
+   ```
+
+2. **Environment**
+
+   Copy `.env.example` to `.env` and set **unique random values** for every secret (do not use the example placeholders in production):
+
+   | Variable | Purpose |
+   |----------|---------|
+   | `APP_KEYS` | Session / cookie signing (comma-separated keys) |
+   | `API_TOKEN_SALT` | API token hashing |
+   | `ADMIN_JWT_SECRET` | Strapi **Admin panel** JWT |
+   | `JWT_SECRET` | **Users & Permissions** (Content API) JWT — must match Next `STRAPI_JWT_SECRET` |
+   | `TRANSFER_TOKEN_SALT` | Data transfer tokens |
+   | `ENCRYPTION_KEY` | Encrypted field storage |
+
+   Optional database overrides: `DATABASE_CLIENT` (`sqlite` default), `DATABASE_FILENAME`, or Postgres via `DATABASE_URL` / `DATABASE_CLIENT=postgres` (see `config/database.ts`).
+
+3. **First run**
+
+   ```bash
+   npm run develop
+   ```
+
+   Open the admin UI (default [http://localhost:1337/admin](http://localhost:1337/admin)), create the first admin user, then:
+
+   - **Settings → API Tokens:** create a **Full access** (or scoped) token for the Next.js server (`STRAPI_API_TOKEN`).
+   - **Settings → Users & Permissions → Roles:** ensure **Public** (and/or **Authenticated**) allow the actions you need for public reads; the school site also uses a **Bearer API token** from Next for many calls.
+
+On first boot, `src/index.ts` **bootstrap** ensures `faculty` and `admin` roles exist and **copies permissions** from the built-in **Authenticated** role so `/api/auth/local` and `/api/users/me` work for site logins.
+
+## Content types (REST)
+
+Strapi exposes the Content API under `/api/…`. In **Strapi 5**, collection types use the **plural** API ID; **single types** use the **singular** API ID for `GET`/`PUT`/`DELETE`.
+
+| Content type | Kind | REST base (examples) |
+|--------------|------|----------------------|
+| Announcement | Collection | `GET/POST /api/announcements`, `GET/PUT/DELETE /api/announcements/:documentId` |
+| Announcement category | Collection | `GET /api/announcement-categories` |
+| School event | Collection | `GET/POST /api/school-events`, … |
+| Grade level | Collection | `GET /api/grade-levels` |
+| Board section | Collection | `GET /api/board-sections` |
+| Faculty member | Collection | `GET /api/faculty-members` |
+| School profile | **Single** | **`GET/PUT /api/school-profile`** (singular — not `school-profiles`) |
+
+Use Strapi’s **documentId** (string) in URLs for a single document where applicable (Strapi 5).
+
+## Data migration / import
+
+Legacy content can be loaded from the Excel workbook used by the school:
+
+```bash
+npm run import:data
 # or
-yarn develop
+node scripts/import-data.js --file ./path/to/JBCMHS.xlsx
 ```
 
-### `start`
+Default workbook path: `./JBCMHS.xlsx` at the project root. The script uses Strapi’s programmatic API (`@strapi/core`) to upsert grade levels, board sections, faculty members, categories, announcements, events, and school profile fields where defined.
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+**Requirements:** Run against a Strapi instance with matching content types; prefer a **stopped** `develop` process or run in maintenance—see `scripts/import-data.js` for details and constraints.
 
-```
-npm run start
-# or
-yarn start
-```
+For a **fresh environment**:
 
-### `build`
+1. `npm run develop` once to apply migrations and create the admin user.
+2. Configure roles and API token.
+3. Run `npm run import:data` (or import via Admin if you prefer manual entry).
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+## Scripts
 
-```
-npm run build
-# or
-yarn build
-```
+| Command | Description |
+|---------|-------------|
+| `npm run develop` | Admin + API with auto-reload |
+| `npm run start` | Production mode (run `build` first) |
+| `npm run build` | Build the admin panel |
+| `npm run import:data` | Import `JBCMHS.xlsx` (see above) |
 
-## ⚙️ Deployment
+## Admin UI customization
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+Do **not** edit generated files under `.strapi/client/` (they are overwritten on build).
 
-```
-yarn strapi deploy
-```
+- **`src/admin/app.tsx`** — entry for admin extensions; imports global CSS.
+- **`src/admin/custom.css`** — persistent overrides for the Strapi admin.
 
-## 📚 Learn more
+After changes: `npm run develop` or `npm run build`.
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+## Production notes
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+- Set `NODE_ENV=production` and secure `HOST` / `PORT` as needed (`config/server.ts`).
+- Use a managed **Postgres** (or your chosen DB) for production; point `DATABASE_URL` / `DATABASE_CLIENT` accordingly.
+- **CORS:** configure if the public site is on another origin (Strapi or reverse proxy).
+- Rotate `JWT_SECRET` only with a coordinated plan: existing user JWTs and the Next.js `STRAPI_JWT_SECRET` must stay in sync.
 
-## ✨ Community
+## Learn more
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+- [Strapi 5 documentation](https://docs.strapi.io/)
+- [REST API](https://docs.strapi.io/cms/api/rest)
+- [Users & Permissions](https://docs.strapi.io/cms/features/users-permissions)

@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grade_levels",
+  "info": {
+    "singularName": "grade-level",
+    "pluralName": "grade-levels",
+    "displayName": "Grade Level"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "boardSections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::board-section.board-section",
+      "mappedBy": "gradeLevel"
+    }
+  }
+}

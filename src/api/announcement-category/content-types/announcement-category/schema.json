@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "announcement_categories",
+  "info": {
+    "singularName": "announcement-category",
+    "pluralName": "announcement-categories",
+    "displayName": "Announcement Category"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "announcements": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::announcement.announcement",
+      "mappedBy": "category"
+    }
+  }
+}

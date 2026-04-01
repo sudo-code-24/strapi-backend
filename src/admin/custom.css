@@ -1,0 +1,9 @@
+/**
+ * Strapi admin global overrides.
+ * Loaded from src/admin/app.tsx — survives rebuilds (unlike .strapi/client/index.html).
+ */
+
+/* Migrated from generated index.html — safe to edit here. */
+.cnSbos {
+  display: none !important;
+}

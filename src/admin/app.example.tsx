@@ -32,6 +32,8 @@ export default {
     ],
   },
   bootstrap(app: StrapiApp) {
+    console.log('bootstrap yol');
+
     console.log(app);
   },
 };

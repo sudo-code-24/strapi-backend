@@ -1,0 +1,46 @@
+{
+  "kind": "singleType",
+  "collectionName": "school_profile",
+  "info": {
+    "singularName": "school-profile",
+    "pluralName": "school-profiles",
+    "displayName": "School Profile"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "history": {
+      "type": "richtext"
+    },
+    "mission": {
+      "type": "richtext"
+    },
+    "vision": {
+      "type": "richtext"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "address": {
+      "type": "text"
+    },
+    "officeHours": {
+      "type": "string"
+    },
+    "heroImageUrl": {
+      "type": "string"
+    },
+    "schoolImageUrl": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "board_sections",
+  "info": {
+    "singularName": "board-section",
+    "pluralName": "board-sections",
+    "displayName": "Board Section"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "gradeLevel": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::grade-level.grade-level",
+      "inversedBy": "boardSections"
+    },
+    "facultyMembers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faculty-member.faculty-member",
+      "mappedBy": "boardSection"
+    }
+  }
+}

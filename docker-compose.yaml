@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: jbcmhs_postgres
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:5432"
+    volumes:
+      # Format: [Host Path]:[Container Path]
+      - /Volumes/WorkDrive/projects/docker/postgres_data:/var/lib/postgresql/data
+# Removed the top-level 'volumes' section as we are using a direct path

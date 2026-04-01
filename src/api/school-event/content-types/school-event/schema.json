@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "school_events",
+  "info": {
+    "singularName": "school-event",
+    "pluralName": "school-events",
+    "displayName": "School Event"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sourceId": {
+      "type": "string",
+      "unique": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "startsAt": {
+      "type": "datetime"
+    },
+    "endsAt": {
+      "type": "datetime"
+    },
+    "eventType": {
+      "type": "enumeration",
+      "enum": ["academic", "event", "other"],
+      "default": "event"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "googleEventId": {
+      "type": "string",
+      "unique": true
+    }
+  }
+}
