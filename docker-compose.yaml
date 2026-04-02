@@ -12,5 +12,5 @@ services:
       - "${DATABASE_PORT}:5432"
     volumes:
       # Format: [Host Path]:[Container Path]
-      - /Volumes/WorkDrive/projects/docker/postgres_data:/var/lib/postgresql/data
+      - /media/dev-yol/545fc1c4-f349-4766-903d-090d97e15ab6/projects/docker/postgres_data:/var/lib/postgresql/data
 # Removed the top-level 'volumes' section as we are using a direct path
