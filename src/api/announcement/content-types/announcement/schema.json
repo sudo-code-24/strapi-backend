@@ -25,8 +25,10 @@
     "publishedAt": {
       "type": "datetime"
     },
-    "imageUrl": {
-      "type": "string"
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
     },
     "category": {
       "type": "relation",

@@ -219,7 +219,6 @@ async function seedAnnouncements(strapi, rows, categoryByName) {
           title,
           content: emptyToNull(row.content) || '',
           publishedAt: parseDate(row.datePosted),
-          imageUrl: emptyToNull(row.imageUrl),
           ...(category ? { category: category.id } : {}),
         },
       });
@@ -270,7 +269,6 @@ async function seedSchoolEvents(strapi, rows) {
           startsAt: parseDate(row.date),
           endsAt: parseDate(row.endDate),
           eventType: normalizeEventType(row.type),
-          imageUrl: emptyToNull(row.imageUrl),
           googleEventId,
         },
       });
@@ -289,6 +287,11 @@ async function upsertSchoolProfile(strapi, rows) {
   }
   const data = {
     name: emptyToNull(row.name) || 'School',
+    tagline: emptyToNull(row.tagline),
+    heroQuote: emptyToNull(row.heroQuote),
+    heroHeading: emptyToNull(row.heroHeading),
+    heroDescription: emptyToNull(row.heroDescription),
+    facebookUrl: emptyToNull(row.facebookUrl),
     history: emptyToNull(row.history) || '',
     mission: emptyToNull(row.mission) || '',
     vision: emptyToNull(row.vision) || '',
@@ -296,8 +299,6 @@ async function upsertSchoolProfile(strapi, rows) {
     email: emptyToNull(row.email),
     address: emptyToNull(row.address),
     officeHours: emptyToNull(row.officeHours),
-    heroImageUrl: emptyToNull(row.heroImageUrl),
-    schoolImageUrl: emptyToNull(row.schoolImageUrl),
   };
   const existing = await strapi.entityService.findMany(UID.schoolProfile, { limit: 1 });
   const existingEntry =
@@ -470,7 +471,6 @@ async function seedFaculty(strapi, facultyRows, boardByTitle) {
           roleTitle: emptyToNull(row.role),
           email,
           phone: emptyToNull(row.phone),
-          photoUrl: emptyToNull(row.photoUrl),
           positionIndex: Number.isFinite(pos) ? pos : 0,
           ...(boardSection ? { boardSection: boardSection.id } : {}),
         },

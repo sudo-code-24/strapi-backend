@@ -29,8 +29,10 @@
     "phone": {
       "type": "string"
     },
-    "photoUrl": {
-      "type": "string"
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
     },
     "positionIndex": {
       "type": "integer",

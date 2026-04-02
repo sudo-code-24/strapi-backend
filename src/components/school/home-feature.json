@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_school_home_features",
+  "info": {
+    "displayName": "Home showcase feature",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string",
+      "default": "⭐"
+    }
+  }
+}

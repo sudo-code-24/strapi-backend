@@ -522,7 +522,7 @@ export interface ApiAnnouncementAnnouncement
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    imageUrl: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -599,6 +599,7 @@ export interface ApiFacultyMemberFacultyMember
       Schema.Attribute.Private;
     email: Schema.Attribute.String;
     fullName: Schema.Attribute.String & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'>;
     importKey: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -609,7 +610,6 @@ export interface ApiFacultyMemberFacultyMember
     > &
       Schema.Attribute.Private;
     phone: Schema.Attribute.String;
-    photoUrl: Schema.Attribute.String;
     positionIndex: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
     roleTitle: Schema.Attribute.String;
@@ -673,7 +673,7 @@ export interface ApiSchoolEventSchoolEvent extends Struct.CollectionTypeSchema {
     eventType: Schema.Attribute.Enumeration<['academic', 'event', 'other']> &
       Schema.Attribute.DefaultTo<'event'>;
     googleEventId: Schema.Attribute.String & Schema.Attribute.Unique;
-    imageUrl: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -706,7 +706,11 @@ export interface ApiSchoolProfileSchoolProfile extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
-    heroImageUrl: Schema.Attribute.String;
+    facebookUrl: Schema.Attribute.String;
+    heroDescription: Schema.Attribute.Text;
+    heroHeading: Schema.Attribute.Text;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroQuote: Schema.Attribute.String;
     history: Schema.Attribute.RichText;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -719,7 +723,9 @@ export interface ApiSchoolProfileSchoolProfile extends Struct.SingleTypeSchema {
     officeHours: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    schoolImageUrl: Schema.Attribute.String;
+    schoolInfoImage: Schema.Attribute.Media<'images'>;
+    showcaseFeatures: Schema.Attribute.Component<'school.home-feature', true>;
+    tagline: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

@@ -15,6 +15,33 @@
       "type": "string",
       "required": true
     },
+    "tagline": {
+      "type": "string"
+    },
+    "heroQuote": {
+      "type": "string"
+    },
+    "heroHeading": {
+      "type": "text"
+    },
+    "heroDescription": {
+      "type": "text"
+    },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "schoolInfoImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "showcaseFeatures": {
+      "type": "component",
+      "repeatable": true,
+      "component": "school.home-feature"
+    },
     "history": {
       "type": "richtext"
     },
@@ -36,10 +63,7 @@
     "officeHours": {
       "type": "string"
     },
-    "heroImageUrl": {
-      "type": "string"
-    },
-    "schoolImageUrl": {
+    "facebookUrl": {
       "type": "string"
     }
   }

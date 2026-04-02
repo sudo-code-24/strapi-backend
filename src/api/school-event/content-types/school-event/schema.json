@@ -33,8 +33,10 @@
       "enum": ["academic", "event", "other"],
       "default": "event"
     },
-    "imageUrl": {
-      "type": "string"
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
     },
     "googleEventId": {
       "type": "string",
